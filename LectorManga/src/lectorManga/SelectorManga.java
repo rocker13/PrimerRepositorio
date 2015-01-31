@@ -54,7 +54,8 @@ public abstract class SelectorManga extends JDialog{
          JPanel panelDerecho = new JPanel();
          JPanel panelInferior = new JPanel();
          
-         JButton btnVer = new JButton("Ver");
+         JButton btnVer = new JButton("Ver Informacion");
+         JButton btnAceptar = new JButton("Aceptar");
          JButton btnCerrar = new JButton("Cerrar");
          
        
@@ -75,6 +76,7 @@ public abstract class SelectorManga extends JDialog{
          panelSuperior.add(panelSupDer,BorderLayout.EAST);
          
          panelInferior.add(btnVer);
+         panelInferior.add(btnAceptar);
          panelInferior.add(btnCerrar);
          
          panelPrincipal.add(panelSuperior,BorderLayout.NORTH);

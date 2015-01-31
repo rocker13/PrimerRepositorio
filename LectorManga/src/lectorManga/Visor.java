@@ -247,7 +247,7 @@ public class Visor extends JFrame{
 			BufferedImage imagen1= ImageIO.read(is);
 			imagen= new ImageIcon(imagen1);
 			//labelImagen.setIcon(imagen);
-			Pestaña.addTab("Title "+contador, new JLabel(""+contador));
+			Pestaña.addTab("Title "+contador, new JLabel(imagen));
 		}catch(Exception e){
 			JOptionPane.showMessageDialog(null, "Error al cargar Imagen", "Error", JOptionPane.ERROR_MESSAGE);
 		}
