@@ -14,6 +14,7 @@ import java.net.URLConnection;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -40,37 +41,39 @@ public abstract class SelectorManga extends JDialog{
          JTextField texto= new JTextField("");
         
          obtenerListas(obtenerCodigoFuente(),tabla);
-         JTextArea descripcion = new JTextArea();
-         descripcion.setLineWrap(true);
+         
          
          JScrollPane scrollTabla = new JScrollPane(tabla);
-         JScrollPane scrollDescripcion = new JScrollPane(descripcion,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+         
          
          JPanel panelPrincipal = new JPanel();
          JPanel panelSuperior = new JPanel();
          JPanel panelSupIzq = new JPanel();
          JPanel panelSupDer = new JPanel();
          JPanel panelIzquierdo = new JPanel();
-         JPanel panelDerecho = new JPanel();
+         PanelInformacion panelDerecho = new PanelInformacion();
          JPanel panelInferior = new JPanel();
          
          JButton btnVer = new JButton("Ver Informacion");
          JButton btnAceptar = new JButton("Aceptar");
          JButton btnCerrar = new JButton("Cerrar");
          
-       
+         JComboBox cboServidor = new JComboBox();
          
          texto.setPreferredSize(new Dimension(300,25));
-         scrollDescripcion.setPreferredSize(new Dimension(300,200));
+         
          scrollTabla.setPreferredSize(new Dimension(350,200));
+         cboServidor.setPreferredSize(new Dimension(300,25));
          
          panelSuperior.setLayout(new BorderLayout());
          panelPrincipal.setLayout(new BorderLayout());
          
          panelIzquierdo.add(scrollTabla);
-         panelDerecho.add(scrollDescripcion);
+         
          panelSupIzq.add(filtro);
          panelSupIzq.add(texto);
+         panelSupDer.add(new JLabel("Servidor:"));
+         panelSupDer.add(cboServidor);
          
          panelSuperior.add(panelSupIzq,BorderLayout.WEST);
          panelSuperior.add(panelSupDer,BorderLayout.EAST);
@@ -84,7 +87,7 @@ public abstract class SelectorManga extends JDialog{
          panelPrincipal.add(panelDerecho,BorderLayout.EAST);
          panelPrincipal.add(panelInferior,BorderLayout.SOUTH);
          
-         setTitle("Animextremist");
+         setTitle("Selector de Manga");
 
          btnVer.addActionListener(new ActionListener() {
 				
