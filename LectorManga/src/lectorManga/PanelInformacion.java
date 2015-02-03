@@ -12,21 +12,29 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
 public class PanelInformacion extends JPanel{
+	
 	private ImageIcon imagen;
+	private String autor, estado;
 	private JPanel panelIzqSup= new JPanel();
+	private JTextArea descripcion;
+	private JLabel labelDatos;
+	
 	public PanelInformacion(){
 		setLayout(new BorderLayout());
-		imagen = new ImageIcon(getClass().getResource("/imagenes/favoritos.jpg"));
-		
+		inicializarUI();
+		setDatos(new Manga());        
+	}
+	
+	public void inicializarUI(){
+		labelDatos = new JLabel();
+		descripcion = new JTextArea();
+        descripcion.setLineWrap(true);
+        descripcion.setEditable(false);
 		JPanel panelDerecho = new JPanel();
 		JPanel panelIzquierdo = new JPanel();
-		
 		JPanel panelIzqInf = new JPanel();
-		setImagen(imagen,imagen.getIconHeight()*2,imagen.getIconWidth()*2);
-		panelIzqInf.add(new JLabel("Autor: \n Estado: "));
-		JTextArea descripcion = new JTextArea();
-        descripcion.setLineWrap(true);
-        JScrollPane scrollDescripcion = new JScrollPane(descripcion,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		panelIzqInf.add(labelDatos);
+		JScrollPane scrollDescripcion = new JScrollPane(descripcion,JScrollPane.VERTICAL_SCROLLBAR_ALWAYS,JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollDescripcion.setPreferredSize(new Dimension(300,200));
         panelDerecho.add(scrollDescripcion);
         panelIzquierdo.setLayout(new BorderLayout());
@@ -34,14 +42,17 @@ public class PanelInformacion extends JPanel{
         panelIzquierdo.add(panelIzqInf,BorderLayout.CENTER);
         this.add(panelIzquierdo,BorderLayout.WEST);
         this.add(panelDerecho,BorderLayout.EAST);
-        //this.add(scrollDescripcion,BorderLayout.EAST);
 	}
-	public void setImagen(ImageIcon img,int x,int y){
-		BufferedImage bi = new BufferedImage(x, y, 2);
-		Graphics g = bi.createGraphics();
-		g.drawImage(img.getImage(), 0, 0, x, y, null);
-		ImageIcon newIcon = new ImageIcon(bi);
-		panelIzqSup.add(new JLabel(newIcon));
+	
+	public void setDatos(Manga manga){
+		imagen=manga.getImagen();
+		panelIzqSup.add(new JLabel(imagen));
+		descripcion.setText(manga.getSinopsis());
+		labelDatos.setText(String.format("<html> %s <br> %s </html>", manga.getAutor(), manga.getEstado()));
+		//this.repaint();
 	}
+	
+	
+	
 
 }

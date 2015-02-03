@@ -27,25 +27,18 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
-public abstract class SelectorManga extends JDialog{
-	String direccion;
-	final Visor padre;
-	public SelectorManga(Visor padre,boolean modal,String direccion){
+public class SelectorManga extends JDialog{
+
+	public SelectorManga(Visor padre,boolean modal){
 		 super(padre,modal);
-		 this.padre=padre;
-		 this.direccion=direccion;
-		 JTable tabla = new JTable(new DefaultTableModel(new String[][]{{"asdf","asdf"},{"asdf","asdf"}},new String[]{"Direccion","Mangas"}));
+		 JTable tabla = new JTable(new ModeloTablaManga());
          tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-         
+                 
          JLabel filtro = new JLabel("Filtro: ");
          JTextField texto= new JTextField("");
-        
-         obtenerListas(obtenerCodigoFuente(),tabla);
-         
-         
+                 
          JScrollPane scrollTabla = new JScrollPane(tabla);
-         
-         
+                 
          JPanel panelPrincipal = new JPanel();
          JPanel panelSuperior = new JPanel();
          JPanel panelSupIzq = new JPanel();
@@ -59,7 +52,7 @@ public abstract class SelectorManga extends JDialog{
          JButton btnCerrar = new JButton("Cerrar");
          
          JComboBox cboServidor = new JComboBox();
-         
+                 
          texto.setPreferredSize(new Dimension(300,25));
          
          scrollTabla.setPreferredSize(new Dimension(350,200));
@@ -93,7 +86,6 @@ public abstract class SelectorManga extends JDialog{
 				
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					//this.padre.agregarPestañas();
 					setVisible(false);
 				}
          	
@@ -117,31 +109,6 @@ public abstract class SelectorManga extends JDialog{
  
 	}
 	
-	public String obtenerCodigoFuente(){
-        StringBuilder contenido = new StringBuilder();
-        try{
-            URL url = new URL(direccion);
-            URLConnection uc =  url.openConnection();
-            uc.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)");
-            uc.connect();
-		   
-            InputStream is=uc.getInputStream();
-		    
-		    
-            //Creamos el objeto con el que vamos a leer
-            BufferedReader in = new BufferedReader(new InputStreamReader(is));
-            String inputLine;
-            while ((inputLine = in.readLine()) != null) {
-                contenido.append(inputLine + "\n");
-            }
-            in.close();
-        }catch(MalformedURLException e){
-            JOptionPane.showMessageDialog(null, "hola","error",JOptionPane.ERROR_MESSAGE);
-        }catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "hol1a","error",JOptionPane.ERROR_MESSAGE);
-        }
-        return contenido.toString();
-    }
 	
-	public abstract void obtenerListas(String codigoFuente,JTable tabla);
+	
 }

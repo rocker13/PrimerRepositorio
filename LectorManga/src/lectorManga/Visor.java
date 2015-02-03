@@ -195,7 +195,7 @@ public class Visor extends JFrame{
 	botonbhInicio.addActionListener(new ActionListener() {
 	
 		public void actionPerformed(ActionEvent e) {
-			new Animextremist(visor,true);
+			new SelectorManga(visor,true);
 			agregarPestañas();
 		}
 	});
@@ -230,28 +230,9 @@ public class Visor extends JFrame{
 	}
 	
 	public void agregarPestañas(){
-		contador++;
-		
-		
-		
-		
-		
-		try{
-			URL url = new URL("http://myanx.com/mangas-online/deathnote/capitulo-1/deathnote.jpg");
-            URLConnection uc =  url.openConnection();
-            uc.setRequestProperty("User-Agent", "Mozilla/4.0 (compatible; MSIE 5.01; Windows NT 5.0)");
-            uc.connect();
-            InputStream is=uc.getInputStream();
-            
-			
-			BufferedImage imagen1= ImageIO.read(is);
-			imagen= new ImageIcon(imagen1);
-			//labelImagen.setIcon(imagen);
-			Pestaña.addTab("Title "+contador, new JLabel(imagen));
-		}catch(Exception e){
-			JOptionPane.showMessageDialog(null, "Error al cargar Imagen", "Error", JOptionPane.ERROR_MESSAGE);
-		}
-		
+		contador++;	
+		//labelImagen.setIcon(imagen);
+		Pestaña.addTab("Title "+contador, new JLabel(imagen));
         Pestaña.setSelectedIndex(Pestaña.getTabCount() - 1);
 	}
 	

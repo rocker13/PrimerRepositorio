@@ -17,10 +17,10 @@ import javax.swing.table.TableModel;
  *
  * @author rodrigo
  */
-public class Animextremist extends SelectorManga{
+public class Animextremist {
 	
     public Animextremist(Visor padre,boolean modal){
-    	super(padre,modal,"http://www.animextremist.com/mangas.htm?ord=todos");
+    	
     }
     
     public void obtenerListas(String codigoFuente,JTable tabla){
