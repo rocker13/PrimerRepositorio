@@ -28,14 +28,16 @@ import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
 
 public class SelectorManga extends JDialog{
+private final Visor padre2;
 
 	public SelectorManga(Visor padre,boolean modal){
 		 super(padre,modal);
-		 JTable tabla = new JTable(new ModeloTablaManga());
+		 padre2=padre;
+		 final JTable tabla = new JTable(new ModeloTablaManga());
          tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
                  
          JLabel filtro = new JLabel("Filtro: ");
-         JTextField texto= new JTextField("");
+         final JTextField txtFiltro= new JTextField("");
                  
          JScrollPane scrollTabla = new JScrollPane(tabla);
                  
@@ -53,7 +55,7 @@ public class SelectorManga extends JDialog{
          
          JComboBox cboServidor = new JComboBox();
                  
-         texto.setPreferredSize(new Dimension(300,25));
+         txtFiltro.setPreferredSize(new Dimension(300,25));
          
          scrollTabla.setPreferredSize(new Dimension(350,200));
          cboServidor.setPreferredSize(new Dimension(300,25));
@@ -64,7 +66,7 @@ public class SelectorManga extends JDialog{
          panelIzquierdo.add(scrollTabla);
          
          panelSupIzq.add(filtro);
-         panelSupIzq.add(texto);
+         panelSupIzq.add(txtFiltro);
          panelSupDer.add(new JLabel("Servidor:"));
          panelSupDer.add(cboServidor);
          
@@ -91,6 +93,17 @@ public class SelectorManga extends JDialog{
          	
          });
          
+         btnAceptar.addActionListener(new ActionListener(){
+        	 public void actionPerformed(ActionEvent e){
+        		 if(tabla.getSelectedRow()>-1){
+        			 padre2.agregarPestañas();
+        			 dispose();
+        		 }else{
+        			 JOptionPane.showMessageDialog(null, "Debe seleccionar un manga","Error",JOptionPane.ERROR_MESSAGE);
+        			 txtFiltro.requestFocus();
+        		 }
+        	 }
+         });
          btnCerrar.addActionListener(new ActionListener() {
 				
 				@Override

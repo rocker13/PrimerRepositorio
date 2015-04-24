@@ -43,10 +43,8 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class Visor extends JFrame{
 	     
 	private static Visor visor;
-	private JLabel labelImagen;
-	private JLabel labelCantidad;
-	private JButton botonAtras;
-	private JButton botonAdelante;
+	
+	
 	private JButton botonbhInicio;
 	private JButton botonbhCargar;
 	private JButton botonbhAFavorito;
@@ -55,11 +53,8 @@ public class Visor extends JFrame{
 	private JButton botonbhZoomG;
 	private JButton botonbhZoomC;
 	private JPanel panelNorte;
-	private JPanel panelComponentes;
-	private JPanel panelImagen;
-	private JPanel panelContenidoDirectorio;
-	private JScrollPane scroll;
 	
+	private JPanel panelContenidoDirectorio;
 	
 	private ImageIcon imagen;
 
@@ -75,7 +70,7 @@ public class Visor extends JFrame{
 
 	private JToolBar barraHerramientas;
 	
-	private JViewport view;
+	
 	private int contador=0;
 
 
@@ -121,29 +116,17 @@ public class Visor extends JFrame{
 		this.barraHerramientas.add(this.botonbhZoomC);
 		this.barraHerramientas.add(this.botonbhAyuda);
 		
-		this.labelCantidad = new JLabel("00/00");
-		this.labelCantidad.setHorizontalAlignment(0);
-		this.labelImagen = new JLabel();
-		this.labelImagen.setHorizontalAlignment(0);
-		this.scroll = new JScrollPane(labelImagen, 22, 32);
 		
-		this.botonAdelante = new JButton("Siguiente");
-		this.botonAtras = new JButton("Anterior");
+		
+		
 
 		this.panelNorte = new JPanel();
 		this.panelNorte.setLayout(new BorderLayout());
-		this.panelComponentes = new JPanel();
-		this.panelComponentes.add(this.botonAtras);
-		this.panelComponentes.add(this.labelCantidad);
-		this.panelComponentes.add(this.botonAdelante);
-		this.panelComponentes.setBorder(BorderFactory.createTitledBorder("Controles de imagen"));
+		
 		this.panelNorte.add(this.barraHerramientas, "North");
-		this.panelImagen = new JPanel();
-		this.panelImagen.setLayout(new BorderLayout());
-		this.panelImagen.setBorder(BorderFactory.createTitledBorder("Visualizacion de la imagen"));
-		this.panelImagen.add(this.scroll, "Center");
+		
 		add(this.Pestaña, "Center");
-		this.panelNorte.add(this.panelComponentes, "South");
+		//this.panelNorte.add(this.panelComponentes, "South");
 		add(this.panelNorte, "North");
 		 
 		this.panelContenidoDirectorio = new JPanel();
@@ -151,39 +134,7 @@ public class Visor extends JFrame{
 		
 		
 		     
-		view = scroll.getViewport();
-		InputMap inputMap = this.view.getInputMap(2);
-		ActionMap actionMap = this.view.getActionMap();
 		
-		Action upKeyAction = new Imagen.MoveAction(this.view, 1, 1, 0, this.labelImagen);
-		KeyStroke upKey = KeyStroke.getKeyStroke("UP");
-		inputMap.put(upKey, "up");
-		actionMap.put("up", upKeyAction);
-		
-		Action downKeyAction = new Imagen.MoveAction(this.view, 0, 1, 0, this.labelImagen);
-		KeyStroke downKey = KeyStroke.getKeyStroke("DOWN");
-		inputMap.put(downKey, "down");
-		actionMap.put("down", downKeyAction);
-		
-		Action leftKeyAction = new Imagen.MoveAction(this.view, 1, 0, 0, this.labelImagen, this.botonAtras, this.botonAdelante);
-		KeyStroke leftKey = KeyStroke.getKeyStroke("LEFT");
-		inputMap.put(leftKey, "left");
-		actionMap.put("left", leftKeyAction);
-		
-		Action rightKeyAction = new Imagen.MoveAction(this.view, 0, 0, 0, this.labelImagen, this.botonAtras, this.botonAdelante);
-		KeyStroke rightKey = KeyStroke.getKeyStroke("RIGHT");
-		inputMap.put(rightKey, "right");
-		actionMap.put("right", rightKeyAction);
-		
-		Action pgUpKeyAction = new Imagen.MoveAction(this.view, 1, 1, 1, this.labelImagen);
-		KeyStroke pgUpKey = KeyStroke.getKeyStroke("PAGE_UP");
-		inputMap.put(pgUpKey, "pgUp");
-		actionMap.put("pgUp", pgUpKeyAction);
-		
-		Action pgDnKeyAction = new Imagen.MoveAction(this.view, 0, 1, 1, this.labelImagen);
-		KeyStroke pgDnKey = KeyStroke.getKeyStroke("PAGE_DOWN");
-		inputMap.put(pgDnKey, "pgDn");
-		actionMap.put("pgDn", pgDnKeyAction);
 	
 	
 		setExtendedState(Frame.MAXIMIZED_BOTH);
@@ -196,7 +147,7 @@ public class Visor extends JFrame{
 	
 		public void actionPerformed(ActionEvent e) {
 			new SelectorManga(visor,true);
-			agregarPestañas();
+			//agregarPestañas();
 		}
 	});
 	
@@ -232,7 +183,7 @@ public class Visor extends JFrame{
 	public void agregarPestañas(){
 		contador++;	
 		//labelImagen.setIcon(imagen);
-		Pestaña.addTab("Title "+contador, new JLabel(imagen));
+		Pestaña.addTab("Title "+contador, new PanelImagen());
         Pestaña.setSelectedIndex(Pestaña.getTabCount() - 1);
 	}
 	
