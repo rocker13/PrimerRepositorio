@@ -1,42 +1,20 @@
 package lectorManga;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Dimension;
 import java.awt.Frame;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.awt.event.FocusAdapter;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 
-import javax.imageio.ImageIO;
-import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
-import javax.swing.ActionMap;
-import javax.swing.InputMap;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JToolBar;
-import javax.swing.JViewport;
-import javax.swing.KeyStroke;
-import javax.swing.JViewport;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
@@ -56,7 +34,6 @@ public class Visor extends JFrame{
 	
 	private JPanel panelContenidoDirectorio;
 	
-	private ImageIcon imagen;
 
 	private JMenu menuArchivo;
 	private JMenu menuAyuda;
@@ -182,7 +159,6 @@ public class Visor extends JFrame{
 	
 	public void agregarPestañas(){
 		contador++;	
-		//labelImagen.setIcon(imagen);
 		Pestaña.addTab("Title "+contador, new PanelImagen());
         Pestaña.setSelectedIndex(Pestaña.getTabCount() - 1);
 	}

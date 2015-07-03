@@ -22,7 +22,7 @@ implements ActionListener
 	setLayout(new GridLayout(2, 1));
 	this.cmdAceptar.addActionListener(this);
 	JPanel panelBoton = new JPanel();
-	JLabel texto = new JLabel("<html> Programa creado por: Rodrigo Ramirez (Rocker13) <br> Facebook: www.facebook.com/rocker.hack.13 </html>");
+	JLabel texto = new JLabel("<html> Programa creado por: Rocker13 <br> Version: 1.0 </html>");
 	texto.setHorizontalAlignment(0);
 	panelBoton.add(this.cmdAceptar);
 	add(texto);
@@ -32,8 +32,3 @@ implements ActionListener
 		setVisible(false);
 	}
 }
-
-/* Location:           /home/rodrigo/Descargas/LectorManga4.jar
- * Qualified Name:     AcercaDe
- * JD-Core Version:    0.6.2
- */
