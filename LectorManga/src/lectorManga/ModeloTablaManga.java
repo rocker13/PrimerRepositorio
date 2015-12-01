@@ -3,15 +3,19 @@ package lectorManga;
 import java.util.ArrayList;
 
 import javax.swing.table.AbstractTableModel;
+import javax.swing.table.DefaultTableModel;
 
-public class ModeloTablaManga extends AbstractTableModel{
+public class ModeloTablaManga extends AbstractTableModel {
 
 	private ArrayList<Manga> listaManga;
-	
+	private Servidor servidor = null;
 	public ModeloTablaManga(){
 		listaManga = new ArrayList<Manga>();
-		EsMangaHere manga = new EsMangaHere();
-		listaManga = manga.obtenerMangas();
+	}
+	public ModeloTablaManga(Servidor servidor){
+		this();
+		this.servidor = servidor;
+		//listaManga = servidor.obtenerMangas();
 	}
 	
 	@Override
@@ -46,11 +50,11 @@ public class ModeloTablaManga extends AbstractTableModel{
 	
 	public void addRow (Manga manga){
 		listaManga.add(manga);
+		fireTableChanged(null);
 	}
 	
 	public void setDatos (ArrayList<Manga> lista){
 		listaManga = lista;
 	}
-	
 
 }

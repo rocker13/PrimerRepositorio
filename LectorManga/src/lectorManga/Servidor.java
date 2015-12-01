@@ -16,7 +16,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
-public class Servidor {
+public abstract class Servidor{
 
 	private String servidor, path, patronManga, patronCapitulo, patronDatos;
 	
@@ -88,6 +88,16 @@ public class Servidor {
 			mangas.add(new Manga(m.group(2), this, m.group(1)));
 		}
 		return mangas;
+	}
+	
+	public void obtenerMangas(ModeloTablaManga modelo){
+		String fuente = obtenerCodigoFuente(path);
+		Pattern p = Pattern.compile(patronManga);
+		Matcher m = p.matcher(fuente);
+		while (m.find()){
+			modelo.addRow(new Manga(m.group(2), this, m.group(1)));
+		}
+		
 	}
 	
 	public void cargarCapitulos(Manga manga){

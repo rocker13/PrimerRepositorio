@@ -6,12 +6,13 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import javax.swing.ImageIcon;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-public class PanelInformacion extends JPanel{
+public class PanelInformacion extends JFrame{
 	
 	private ImageIcon imagen;
 	private String autor, estado;
@@ -20,9 +21,14 @@ public class PanelInformacion extends JPanel{
 	private JLabel labelDatos;
 	
 	public PanelInformacion(){
+		setTitle("Información del Manga");
 		setLayout(new BorderLayout());
 		inicializarUI();
-		setDatos(new Manga());        
+		setDatos(new Manga());  
+		pack();
+		setResizable(false);
+		setLocationRelativeTo(null);
+		setVisible(true);
 	}
 	
 	public void inicializarUI(){

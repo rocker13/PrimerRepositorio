@@ -4,7 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
@@ -30,31 +33,86 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
+import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 public class SelectorManga extends JDialog{
 private final Visor padre2;
+ModeloTablaManga modelo = new ModeloTablaManga();
+private int cont=0;
+private static final int START_HEIGHT = 4;
+private static final int END_HEIGHT = 24;
+int i = 0;
 
 	public SelectorManga(Visor padre,boolean modal){
-		 super(padre,modal);
+		 super(padre,false);
 		 padre2=padre;
-		 final JTable tabla = new JTable(new ModeloTablaManga());
-         tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		 JPanel panelPrincipal = new JPanel();
+		 panelPrincipal.setLayout(new GridBagLayout());
+		 GridBagConstraints constraints = new GridBagConstraints();
                  
-         JLabel filtro = new JLabel("Filtro:");
-         //filtro.setAlignmentX(CENTER_ALIGNMENT);
+         JLabel lblServidor = new JLabel("Servidor:");
+         constraints.gridx = 0;
+         constraints.gridy = 0;
+         constraints.gridwidth = 1;
+         constraints.gridheight = 1;
+         constraints.insets = new Insets(1,3,1,1);
+         panelPrincipal.add(lblServidor,constraints);
+         
+         final JComboBox cboServidor = new ComboStandar();
+         cboServidor.addItem("Seleccione un Servidor");
+         cboServidor.addItem("EsMangaHere");
+         cboServidor.setPreferredSize(new Dimension(250,25));
+         constraints.gridx = 1;
+         constraints.gridy = 0;
+         constraints.gridwidth = 1;
+         constraints.gridheight = 1;
+         constraints.insets = new Insets(1,1,1,1);
+         constraints.anchor = GridBagConstraints.LINE_END;
+         panelPrincipal.add(cboServidor,constraints);
+         
+         JButton btnCargarServidor = new JButton("->");
+         constraints.gridx = 2;
+         constraints.gridy = 0;
+         constraints.insets = new Insets (1,1,1,3);
+         panelPrincipal.add(btnCargarServidor,constraints);
+         
+         JLabel lblFiltro = new JLabel("Filtro:");
+         constraints.gridx = 0;
+         constraints.gridy = 1;
+         constraints.gridwidth = 1;
+         constraints.gridheight = 1;
+         panelPrincipal.add(lblFiltro,constraints);
+         
          final JTextField txtFiltro= new JTextField("");
-         //txtFiltro.setAlignmentX(CENTER_ALIGNMENT);
+         txtFiltro.setPreferredSize(new Dimension(280,25));
+         constraints.gridx = 1;
+         constraints.gridy = 1;
+         constraints.gridwidth = 2;
+         constraints.gridheight = 1;
+         constraints.insets = new Insets(1,1,1,3);
+         panelPrincipal.add(txtFiltro,constraints);
                  
-         JScrollPane scrollTabla = new JScrollPane(tabla);
-                 
-         JPanel panelPrincipal = new JPanel();
-         JPanel panelSuperior = new JPanel();
-         JPanel panelSupFiltro = new JPanel();
-         JPanel panelSupServidor = new JPanel();
-         JPanel panelCentral = new JPanel();
+        final JTable tabla = new JTable(new ModeloTablaManga());
+        tabla.setModel(modelo);
+		tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		tabla.setAutoCreateRowSorter(true);
+		JScrollPane scrollTabla = new JScrollPane(tabla);
+		scrollTabla.setPreferredSize(new Dimension(350,200));
+		constraints.gridx = 0;
+		constraints.gridy = 2;
+		constraints.gridwidth = 3;
+		constraints.gridheight = 1;
+		constraints.insets = new Insets(1,3,1,3);
+		panelPrincipal.add(scrollTabla,constraints);
+         
          JPanel panelInferior = new JPanel();
+         constraints.gridx = 0;
+         constraints.gridy = 3;
+         constraints.gridwidth = 3;
+         constraints.gridheight = 1;
+         constraints.anchor = GridBagConstraints.CENTER;
          
          JButton btnVer = new JButton(new ImageIcon(getClass().getResource("/imagenes/info.png")));
          btnVer.setToolTipText("Ver Información");
@@ -63,42 +121,24 @@ private final Visor padre2;
          JButton btnCerrar = new JButton(new ImageIcon(getClass().getResource("/imagenes/cerrar.png")));
          btnCerrar.setToolTipText("Cerrar");
          
-         JComboBox cboServidor = new JComboBox();
-                 
-         txtFiltro.setPreferredSize(new Dimension(300,25));
-         
-         scrollTabla.setPreferredSize(new Dimension(350,200));
-         cboServidor.setPreferredSize(new Dimension(280,25));
-         
-         panelSuperior.setLayout(new GridLayout(2,1));
-         panelPrincipal.setLayout(new BorderLayout());
-         
-         panelCentral.add(scrollTabla);
-         
-         panelSupFiltro.add(filtro);
-         panelSupFiltro.add(txtFiltro);
-         panelSupServidor.add(new JLabel("Servidor:"));
-         panelSupServidor.add(cboServidor);
-         
-         panelSuperior.add(panelSupServidor);
-         panelSuperior.add(panelSupFiltro);
-         
          panelInferior.add(btnVer);
          panelInferior.add(btnAceptar);
          panelInferior.add(btnCerrar);
          
-         panelPrincipal.add(panelSuperior,BorderLayout.NORTH);
-         panelPrincipal.add(panelCentral,BorderLayout.CENTER);
-         panelPrincipal.add(panelInferior,BorderLayout.SOUTH);
+         panelPrincipal.add(panelInferior,constraints);
          
          setTitle("Selector de Manga");
 
          btnVer.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					setVisible(false);
-				}
+        	 public void actionPerformed(ActionEvent e) {
+        		 if(tabla.getSelectedRow()>-1){
+        			 
+        			 new PanelInformacion();
+        		 }else{
+        			 JOptionPane.showMessageDialog(null, "Debe seleccionar un manga","Error",JOptionPane.ERROR_MESSAGE);
+        			 txtFiltro.requestFocus();
+        		 }
+        	 }
          	
          });
          
@@ -120,7 +160,37 @@ private final Visor padre2;
 					dispose();
 					
 				}
-         });    
+         });
+         btnCargarServidor.addActionListener(new ActionListener(){
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+//				// TODO Auto-generated method stub
+				txtFiltro.setText(null);
+				Servidor servidor=null;
+				if (cboServidor.getSelectedItem().toString()=="EsMangaHere"){
+					servidor = new EsMangaHere();
+				}
+				servidor.obtenerMangas(modelo);
+//				Prueba hilo = new Prueba(modelo,tabla);
+//				cont++;
+//				modelo.addRow(new Manga(String.valueOf(cont), new SubManga(), String.valueOf(cont)));
+//	            (new Timer(10, new ActionListener() {
+//	                
+//	                int h = START_HEIGHT;
+//	                @Override public void actionPerformed(ActionEvent e) {
+//	                    if (h < END_HEIGHT) {
+//	                        tabla.setRowHeight(0, h++);
+//	                    } else {
+//	                    	i++;
+//	                    	((Timer) e.getSource()).stop();
+//	                        
+//	                    }
+//	                }
+//	            })).start();
+//				
+			}
+		});
          txtFiltro.addKeyListener(new java.awt.event.KeyAdapter() {
              public void keyReleased(java.awt.event.KeyEvent evt) {
                  TableRowSorter gridFiltrado= new TableRowSorter(tabla.getModel());
@@ -128,12 +198,12 @@ private final Visor padre2;
                  tabla.setRowSorter(gridFiltrado);
              }
          });
-
          
-         setSize(360, 350);
+
+         add(panelPrincipal);
+         pack();
          setLocationRelativeTo(null);
          setResizable(false);
-         add(panelPrincipal);
          setVisible(true);
          
  
