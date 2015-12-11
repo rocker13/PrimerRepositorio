@@ -40,9 +40,6 @@ import javax.swing.table.TableRowSorter;
 public class SelectorManga extends JDialog{
 private final Visor padre2;
 ModeloTablaManga modelo = new ModeloTablaManga();
-private int cont=0;
-private static final int START_HEIGHT = 4;
-private static final int END_HEIGHT = 24;
 int i = 0;
 
 	public SelectorManga(Visor padre,boolean modal){
@@ -60,9 +57,9 @@ int i = 0;
          constraints.insets = new Insets(1,3,1,1);
          panelPrincipal.add(lblServidor,constraints);
          
-         final JComboBox cboServidor = new ComboStandar();
-         cboServidor.addItem("Seleccione un Servidor");
-         cboServidor.addItem("EsMangaHere");
+         final JComboBox<IdServidor> cboServidor = new JComboBox<>(IdServidor.values());
+//         cboServidor.addItem("Seleccione un Servidor");
+//         cboServidor.addItem("EsMangaHere");
          cboServidor.setPreferredSize(new Dimension(250,25));
          constraints.gridx = 1;
          constraints.gridy = 0;
@@ -153,44 +150,29 @@ int i = 0;
         		 }
         	 }
          });
-         btnCerrar.addActionListener(new ActionListener() {
-				
+         
+         btnCerrar.addActionListener(new ActionListener() {		
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					dispose();
 					
 				}
          });
+
          btnCargarServidor.addActionListener(new ActionListener(){
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-//				// TODO Auto-generated method stub
 				txtFiltro.setText(null);
 				Servidor servidor=null;
 				if (cboServidor.getSelectedItem().toString()=="EsMangaHere"){
 					servidor = new EsMangaHere();
+				}else{
+					servidor = new SubManga();
 				}
 				servidor.obtenerMangas(modelo);
-//				Prueba hilo = new Prueba(modelo,tabla);
-//				cont++;
-//				modelo.addRow(new Manga(String.valueOf(cont), new SubManga(), String.valueOf(cont)));
-//	            (new Timer(10, new ActionListener() {
-//	                
-//	                int h = START_HEIGHT;
-//	                @Override public void actionPerformed(ActionEvent e) {
-//	                    if (h < END_HEIGHT) {
-//	                        tabla.setRowHeight(0, h++);
-//	                    } else {
-//	                    	i++;
-//	                    	((Timer) e.getSource()).stop();
-//	                        
-//	                    }
-//	                }
-//	            })).start();
-//				
 			}
-		});
+         });
+        
          txtFiltro.addKeyListener(new java.awt.event.KeyAdapter() {
              public void keyReleased(java.awt.event.KeyEvent evt) {
                  TableRowSorter gridFiltrado= new TableRowSorter(tabla.getModel());

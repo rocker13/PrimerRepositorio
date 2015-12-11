@@ -18,31 +18,36 @@ import javax.swing.JOptionPane;
 
 public abstract class Servidor{
 
-	private String servidor, path, patronManga, patronCapitulo, patronDatos;
+	private String PATH, PATRON_MANGA, PATRON_CAPITULOS, patronDatos;
+	private IdServidor idServidor;
 	
 	public Servidor(){
 		
 	};
 	
-	public void setPatronManga(String patron){
-		this.patronManga = patron;
-	}
-	
-	public void setPatronDatos(String patron){
-		this.patronDatos = patron;
-	}
-	
-	public void setPatronCapitulos(String patron){
-		this.patronCapitulo = patron;
-	}
 	public void setPath(String path){
-		this.path = path;
+		PATH = path;
 	}
 	
-	public void setServidor(String servidor){
-		this.servidor = servidor;
+	public String getPath(){
+		return PATH;
+	}
+
+	public void setPatronManga(String patronManga){
+		PATRON_MANGA = patronManga;
 	}
 	
+	public String getPatronManga(){
+		return PATRON_MANGA;
+	}
+
+	public void setServidor(IdServidor idServer){
+		idServidor = idServer;
+	}
+	
+	public IdServidor getServidor(){
+		return idServidor;
+	}
 	public String obtenerCodigoFuente(String direccion) {
 		StringBuilder contenido = new StringBuilder();
 		try{
@@ -81,21 +86,21 @@ public abstract class Servidor{
 	
 	public ArrayList<Manga> obtenerMangas(){
 		ArrayList<Manga> mangas = new ArrayList<Manga>();
-		String fuente = obtenerCodigoFuente(path);
-		Pattern p = Pattern.compile(patronManga);
+		String fuente = obtenerCodigoFuente(PATH);
+		Pattern p = Pattern.compile(PATRON_MANGA);
 		Matcher m = p.matcher(fuente);
 		while (m.find()){
-			mangas.add(new Manga(m.group(2), this, m.group(1)));
+			mangas.add(new Manga(m.group(2), idServidor, m.group(1)));
 		}
 		return mangas;
 	}
 	
 	public void obtenerMangas(ModeloTablaManga modelo){
-		String fuente = obtenerCodigoFuente(path);
-		Pattern p = Pattern.compile(patronManga);
+		String fuente = obtenerCodigoFuente(PATH);
+		Pattern p = Pattern.compile(PATRON_MANGA);
 		Matcher m = p.matcher(fuente);
 		while (m.find()){
-			modelo.addRow(new Manga(m.group(2), this, m.group(1)));
+			modelo.addRow(new Manga(m.group(2), idServidor, m.group(1)));
 		}
 		
 	}
@@ -103,7 +108,7 @@ public abstract class Servidor{
 	public void cargarCapitulos(Manga manga){
 		ArrayList<Capitulo> capitulos = new ArrayList<Capitulo>();
 		String fuente = obtenerCodigoFuente(manga.getPath());
-		Pattern p = Pattern.compile(patronCapitulo);
+		Pattern p = Pattern.compile(PATRON_CAPITULOS);
 		Matcher m = p.matcher(fuente);
 		while (m.find()){
 			capitulos.add(new Capitulo(m.group(2), m.group(1)));
@@ -121,11 +126,6 @@ public abstract class Servidor{
 			manga.setEstado(m.group());
 			manga.setSinopsis(m.group());
 		}
-	}
-
-	@Override
-	public String toString() {
-		return servidor;
 	}
 	
 }

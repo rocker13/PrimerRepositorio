@@ -9,11 +9,11 @@ import javax.swing.ImageIcon;
 public class Manga {
 	
 	private String titulo, sinopsis,estado,autor, path;
-	private Servidor servidor;
+	private IdServidor servidor;
 	private ArrayList<Capitulo> capitulos;
 	private ImageIcon imagen;
 	
-	public Manga(String titulo, Servidor servidor, String path) {
+	public Manga(String titulo, IdServidor servidor, String path) {
 		this.titulo = titulo;
 		this.servidor = servidor;
 		this.path = path;
